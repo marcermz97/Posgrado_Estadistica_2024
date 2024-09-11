@@ -1,0 +1,88 @@
+#Importar datos
+url <- "https://raw.githubusercontent.com/mgtagle/Met_Est_2024/main/Datos_Madera_MET.csv"
+madera<-read.csv(url,header = T)
+View(madera)
+
+summary(madera)
+
+mean(madera$Peso_g)
+
+H.media <- subset(madera, madera$Peso_g >=  mean(madera$Peso_g))
+mean(madera$Peso_g) 
+# 7.75
+
+DBH.mean <- subset(madera, madera$Peso_g < mean(madera$Peso_g))
+mean(madera$Peso_g)
+#7.75
+
+H.media<- subset(madera, madera$Lado_A >=  mean(madera$Lado_A))
+mean(madera$Lado_A) 
+# 19.48
+
+DBH.mean <- subset(madera, madera$Lado_A < mean(madera$Lado_A))
+mean(madera$Lado_A)
+#19.48
+
+H.media<- subset(madera, madera$Lado_B >=  mean(madera$Lado_B))
+mean(madera$Lado_B) 
+# 20.25
+
+H.media<- subset(madera, madera$Lado_C >=  mean(madera$Lado_C))
+mean(madera$Lado_C) 
+# 19.82
+
+
+# Ho 
+# H1 si existe una variación entre el peso de la madera
+
+gavia <- subset(madera, madera$Especie == "C")
+View(gavia)
+
+bareta<- subset(madera, madera$Especie == "C")
+View(bareta)
+
+
+
+Realizar una inspección gráfica
+
+
+7 estVar()
+7 est descriptivos de la variable
+
+boxplot(madera$Peso_g ~ madera$Especie)
+xlab = "Niveles de factor"
+ylab = "Peso (gr)"
+col = "red"
+
+
+aceptar Ho o H1
+
+homogeneidad de las varianzas
+# Estadisticas descriptivas de la variable en común (peso_g)
+
+tapply( madera$Peso_g, madera$Especie, mean)
+tapply (madera$Peso_g, madera$Especie. var)
+
+# ¿Cuántos niveles de factor existen?
+aplicar prueba
+# Existen dos niveles de factor "especies: barreta y gavia"
+
+
+# realizar la prueba de t, así como revisar si los supuestos de 
+# y homogeneidad de varianza se cumple
+
+shapiro.test(madera$Peso_g)
+bartlett.test(madera$Peso_g ~ madera$Especie)
+madera$peso_t <- log(madera$Peso_g + 1)
+tapply(madera$peso_t, madera$Especie, var)
+boxplot(madera$peso_t ~ madera$Especie)
+
+
+t.test(madera$Peso_g ~ madera$Especie, var.equal = F)
+
+t.test(madera$Peso_g ~ madera$Especie, var.equal = T)
+
+# Qué hipotesis se acepta?
+
+
+
