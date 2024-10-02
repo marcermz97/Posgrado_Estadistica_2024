@@ -7,6 +7,7 @@ H.media <- subset(prod, prod$Altura >=  mean(prod$Altura))
 mean(prod$Altura)
 View(H.media)
 #26 obs
+#Subset:  subconjunto, conjunto de un conjunto más grande.Restringuir sola una parte.
 
 H.16 <- subset(prod, prod$Altura <= 16.5)
 View(H.16)
