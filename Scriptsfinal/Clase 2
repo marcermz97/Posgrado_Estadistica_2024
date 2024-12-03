@@ -1,210 +1,111 @@
-prof_url <- "http://www.profepa.gob.mx/innovaportal/file/7635/1/accionesInspeccionfoanp.csv" 
+prod <- read.csv("tarea1.csv" , header = T)
+head(prod)
 
-profepa <- read.csv(prof_url, encoding = "latin1") 
+# Datos iguales o menores a la media y datos menores a 16.5m--------------------------
 
-head(profepa) 
+H.media <- subset(prod, prod$Altura >=  mean(prod$Altura))
+mean(prod$Altura)
+View(H.media)
+#26 obs
+#Subset:  subconjunto, conjunto de un conjunto más grande.Restringuir sola una parte.
 
-View(profepa) 
+H.16 <- subset(prod, prod$Altura <= 16.5)
+View(H.16)
+#36 obs
 
+# Variable vecinos---------------------------------------------
 
-#Datos 
+vecinos3 <- subset(prod, prod$Vecinos <= 3)
+View(vecinos3)
+#26 obs
 
-summary(profepa) 
+vecinos4 <- subset(prod, prod$Vecinos <= 4)
+View(vecinos4)
+#39 obs
 
-#Media 
+# Variable diametro--------------------------------------------
 
-mean(profepa$Inspección) 
+DBH.mean <- subset(prod, prod$Diametro < mean(prod$Diametro))
+mean(prod$Diametro)
+View(DBH.mean)
+#25 obs
 
-  
+DBH.16 <- subset(prod, prod$Diametro > 16)
+mean(prod$Diametro)
+View(DBH.16)
+#24 obs
 
-#restricción 
+#Variable especie----------------------------------------------
 
-#subset conjuntos para filtrar 
+cedrorojo <- subset(prod, prod$Especie == "C")
+View(cedrorojo)
+#22 obs
 
-  
+tsugaydouglasia <- subset(prod, prod$Especie != "C" )
+View(tsugaydouglasia)
+#28 obs
 
-ins <- subset(profepa, profepa$Inspección >= mean(profepa$Inspección)) 
+spp1.1 <- subset(prod, prod$Diametro <= 16.9)
+View(spp1)
+#2 obs
+spp2 <- subset(prod, prod$Altura > 18.5)
+View(spp2)
+#2 obs
 
-View(ins) 
+#Visualización de datos---------------------------------------
+hist(prod$Altura, xlab = "altura", ylab = "frecuencia", main = "Histograma de Altura", xlim = c(4, 25), ylim = c (0,13), col = ("pink"))
 
-  
+hist(H.media$Altura, xlab = "altura", ylab = "frecuencia", main = "Histograma de Altura - H.media", xlim = c(13,25), ylim = c(0,13), col = ("blue"))
 
-bajo <- subset(profepa, profepa$Inspección <= mean(profepa$Inspección) 
+hist(H.16$Altura, xlab = "altura", ylab = "frecuencia", main = "Histograma de Altura - H.16", xlim = c(5,24), m = c (0,14), col = ("yellow"))
 
-View(bajo) 
+hist(prod$Vecinos, xlab = "Vecinos", ylab = "frecuencia", main = "Histograma de Vecinos", xlim = c(7,32), ylim = c (0,14), col = ("green"))
 
-  
+hist(vecinos3$Vecinos, xlab = "Vecinos", ylab = "frecuencia", main = "Histograma de vecinos3", xlim = c(9,24), ylim = c (0,14), col = ("red"))
 
-cero <- subset(profepa, profepa$Inspección == 0) 
+hist(vecinos4$Vecinos, xlab = "Vecinos", ylab = "frecuencia", main = "Histograma de vecinos4", xlim = c(8,20), ylim = c (0,20), col = ("violet"))
 
-View(cero) 
+hist(prod$Diametro, xlab = "Diametro", ylab = "frecuencia", main = "Histograma de Diametro", xlim = c(12,24), ylim = c (0,25), col = ("orange"))
 
-  
+hist(DBH.media$Diametro, xlab = "Diametro", ylab = "frecuencia", main = "Histograma de Diametro DBH.media", xlim = c(8,23), ylim = c (0,30), col = ("green"))
 
-todos <- subset(profepa, profepa$Inspección != mean(profepa$Inspección)) 
+hist(DBH.16$Diametro, xlab = "Diametro", ylab = "frecuencia", main = "Histograma de Diametro DBH.16", xlim = c(16,22), ylim = c (0,15), col = ("blue"))
 
-View(todos) 
+# Estadisticas basicas-------------------------------------------------------------------------------------------------------------
+# Determinar la media (mean) de los objetos (variables y respectivos subsets), así como su desviación estándar (sd)
 
-  
+# Altura
+mean(prod$Altura)
+sd(prod$Altura)
 
-#Ayuda de una función 
+# H.media
+mean(H.media$Altura)
+sd(H.media$Altura)
 
-?tapply 
+# H.16
+mean(H.16$Altura)
+sd(H.16$Altura)
 
-  
+# Vecinos
+mean(prod$Altura)
+sd(prod$Altura)
 
-#------------------------------------------------------------------------- 
+# Vecinos 3
+mean(vecinos3$Altura)
+sd(vecinos3$Altura)
 
-  
+# Vecinos 4
+mean(vecinos4$Altura)
+sd(vecinos4$Altura)
 
-# Descargar de datos seguro 
-
-  
-
-library(repmis) 
-
-conjunto <- source_data("https://www.dropbox.com/s/hmsf07bbayxv6m3/cuadro1.csv?dl=1") 
-
-View(conjunto) 
-
-  
-
-#Llamar a la variable como factor 
-
-conjunto$Especie <- as.factor(conjunto$Especie) 
-
-conjunto$Clase <- as.factor(conjunto$Clase) 
-
-  
-
-#Ver datos 
-
-summary(conjunto) 
-
-  
-
-#Restricción 
-
-spFH <- subset(conjunto, conjunto$Especie != "C") 
-
-View(spFH) 
-
-  
-
-tapply(spFH$Diametro, spFH$Especie,mean) 
-
-  
-
-#boxplot 
-
-  
-
-boxplot(spFH$Diametro ~ spFH$Especie) 
-
-  
-
-boxplot(conjunto$Diametro ~ conjunto$Especie) 
-
-  
-
-#perzonalizar boxplot 
-
-  
-
-boxplot(spFH$Diametro ~ spFH$Especie, 
-
-        xlab = "Especies", 
-
-        ylab = "Diametro", 
-
-        col= "green") 
-
-  
-
-#Prueba de normalidad Shapiro, se acepta por que el valor de P es 0.05  
-
-  
-
-shapiro.test(spFH$Diametro) 
-
-  
-
-#Prueba de homogenidad de varianzas 
-
-  
-
-bartlett.test(spFH$Diametro, spFH$Especie) 
-
-  
-
-#Pruba de t independientes 
-
-  
-
-t.test(spFH$Diametro ~ spFH$Especie, var.equal = TRUE) 
-
-  
-
-# (Pruba de t) df son grados de libertad n-2, sirve para corroborar 
-
-# (Pruba de t) p se acepta la hipotesis nula, de qie los valores son semejantes 
-
-  
-
-  
-
-# Prueba de t de una muestra 
-
-# mu- media teorica 
-
-# Se acepta la hipotesis alternativa por que p value es menor 0.05 
-
-  
-
-t.test(conjunto$Diametro, mu = 22) 
-
-  
-
-# Se acepta la hipotesis alternativa por que p value es menor 0.05 
-
-  
-
-t.test(conjunto$Diametro, mu = 17) 
-
-  
-
-# Se acepta la hipotesis nula por que p value es mayor 0.05 
-
-  
-
-t.test(conjunto$Diametro, mu = 16.4) 
-
-  
-
-#----------------------------------------------------------------------------- 
-
-#Abrir archivo en excel 
-
-prod <- read.csv("produccion.CSV", header = T) 
-
-View(prod) 
-
-  
-
-#boxplot 
-
-boxplot(prod$Kgsem ~ prod$Tiempo) 
-
-  
-
-#prueba t Dependientes 
-
-# La diferencia no es significativa 
-
-t.test(prod$Kgsem ~ prod$Tiempo, paired = T) 
-
-  
-
-# ver media  
-
-tapply(prod$Kgsem,prod$Tiempo, mean) 
+# Diametro
+mean(prod$Diametro)
+mean(prod$Diametro)
+
+# DBH-media
+mean(DBH.mean$Diametro)
+sd(DBH.mean$Diametro)
+
+# DBH-16
+mean(DBH.16$Diametro)
+sd(DBH.16$Diametro)
