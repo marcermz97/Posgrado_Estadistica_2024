@@ -1,7 +1,7 @@
 prod <- read.csv("tarea1.csv" , header = T)
 head(prod)
 
-# Datos iguales o menores a la media y datos menores a 16.5m-------------------------
+# Datos iguales o menores a la media y datos menores a 16.5m------------------------
 
 H.media <- subset(prod, prod$Altura >=  mean(prod$Altura))
 mean(prod$Altura)
