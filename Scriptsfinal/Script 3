@@ -1,83 +1,215 @@
-#Importar datos
-url <- "https://raw.githubusercontent.com/mgtagle/Met_Est_2024/main/Datos_Madera_MET.csv"
-madera<-read.csv(url,header = T)
-View(madera)
+prof_url <- "http://www.profepa.gob.mx/innovaportal/file/7635/1/accionesInspeccionfoanp.csv" 
 
-#Establecer hipotesis
-#Ho: Posee diferencias del peso de la madera entre Barreta y Gavia
-#H1: No posee diferencias del peso de la madera entre Barreta y Gavia
+profepa <- read.csv(prof_url, encoding = "latin1") 
 
-CLASE
-# Ho 
-# H1 si existe una variación entre el peso de la madera
-gavia <- subset(madera, madera$Especie == "C")
-View(gavia)
-bareta<- subset(madera, madera$Especie == "C")
-View(bareta)
-CLASE
+head(profepa) 
 
-#2.Grafico de variables y niveles de factor
-hist(madera$Peso_g ~ madera$Repeticion)
-boxplot(madera$Peso_g ~madera$Especie,
-        xlab = "Niveles de factor",
-        ylab = "peso (gr)",
-        col= "yellow")
+View(profepa) 
 
+  
 
-#3.Estadistica descriptiva
-tapply(madera$Peso_g,madera$Especie, mean)
-tapply(madera$Peso_g,madera$Especie, var)
-summary(madera)
+#Datos 
 
-#4. Cuantos factores de nivel exsisten? Aplicar prueba
-# Existen dos niveles de factor "especies: barreta y gavia"
+summary(profepa) 
 
+  
 
-# La varianza de Gavia es 7 veces mayor
+#Media 
 
-#5.Prueba de normalidad Shapiro, se acepta por que el valor de P es mayor 0.05 , es normal
-shapiro.test(madera$Peso_g)
-#Prueba de normalidad de Shapiro:Si es menor a 0.05 no es normal, se rechaza.
+mean(profepa$Inspección) 
 
+  
 
+#restricción 
 
+#subset conjuntos para filtrar 
 
-#6.Prueba de homogenidad de varianzas
-#se rechaza por que el valor de de P es menor 0.05,las varianzas son diferentes
+  
 
-bartlett.test(madera$Peso_g ~ madera$Especie)
+ins <- subset(profepa, profepa$Inspección >= mean(profepa$Inspección)) 
 
-#7. Transformar datos
-madera$Peso_t <- log10(madera$Peso_g + 0.5)
-madera$Peso_t <- log(madera$Peso_g + 0.5)   
+View(ins) 
 
-ejemplo
-madera$peso_t <- log(madera$Peso_g + 1)                     
+  
 
+bajo <- subset(profepa, profepa$Inspección <= mean(profepa$Inspección) 
 
-tapply(madera$Peso_t,madera$Especie, var)
+View(bajo) 
 
+  
 
+cero <- subset(profepa, profepa$Inspección == 0) 
 
+View(cero) 
 
-boxplot(madera$Peso_t ~madera$Especie,
-        xlab = "factor",
-        ylab = "peso",
-        col= "blue")
+  
 
+todos <- subset(profepa, profepa$Inspección != mean(profepa$Inspección)) 
 
+View(todos) 
 
-#8 Aplicar la prueba de t, así como revisar si los supuestos de ...
-# y homogeneidad de varianza se cumple
-t.test(madera$Peso_g ~ madera$Especie, var.equal = F)
+  
 
+#Ayuda de una función 
 
+?tapply 
 
+  
 
-ejemplo
-t.test(madera$Peso_g ~ madera$Especie, var.equal = T)
+#------------------------------------------------------------------------- 
 
-#9 Aceptar o negar hipotesis
+  
 
-# Qué hipotesis se acepta?: se rechaza hipotesis nula
+# Descargar de datos seguro 
 
+  
+
+library(repmis) 
+
+conjunto <- source_data("https://www.dropbox.com/s/hmsf07bbayxv6m3/cuadro1.csv?dl=1") 
+
+View(conjunto) 
+
+  
+
+#Llamar a la variable como factor 
+
+conjunto$Especie <- as.factor(conjunto$Especie) 
+
+conjunto$Clase <- as.factor(conjunto$Clase) 
+
+  
+
+#Ver datos 
+
+summary(conjunto) 
+
+  
+
+#Restricción 
+
+spFH <- subset(conjunto, conjunto$Especie != "C") 
+
+View(spFH) 
+
+  
+
+tapply(spFH$Diametro, spFH$Especie,mean) 
+
+  
+
+#boxplot 
+
+  
+
+boxplot(spFH$Diametro ~ spFH$Especie) 
+
+  
+
+boxplot(conjunto$Diametro ~ conjunto$Especie) 
+
+  
+
+#perzonalizar boxplot 
+
+  
+
+boxplot(spFH$Diametro ~ spFH$Especie, 
+
+        xlab = "Especies", 
+
+        ylab = "Diametro", 
+
+        col= "green") 
+
+  
+
+#Prueba de normalidad Shapiro, se acepta por que el valor de P es 0.05  
+
+  
+
+shapiro.test(spFH$Diametro) 
+
+  
+
+#Prueba de homogenidad de varianzas 
+
+  
+
+bartlett.test(spFH$Diametro, spFH$Especie) 
+
+  
+
+#Pruba de t independientes 
+
+  
+
+t.test(spFH$Diametro ~ spFH$Especie, var.equal = TRUE) 
+
+  
+
+# (Pruba de t) df son grados de libertad n-2, sirve para corroborar 
+
+# (Pruba de t) p se acepta la hipotesis nula, de qie los valores son semejantes 
+
+  
+
+  
+
+# Prueba de t de una muestra 
+
+# mu- media teorica 
+
+# Se acepta la hipotesis alternativa por que p value es menor 0.05 
+
+  
+
+t.test(conjunto$Diametro, mu = 22) 
+
+  
+
+# Se acepta la hipotesis alternativa por que p value es menor 0.05 
+
+  
+
+t.test(conjunto$Diametro, mu = 17) 
+
+  
+
+# Se acepta la hipotesis nula por que p value es mayor 0.05 
+
+  
+
+t.test(conjunto$Diametro, mu = 16.4) 
+
+  
+
+#----------------------------------------------------------------------------- 
+
+#Abrir archivo en excel 
+
+prod <- read.csv("produccion.CSV", header = T) 
+
+View(prod) 
+
+  
+
+#boxplot 
+
+boxplot(prod$Kgsem ~ prod$Tiempo) 
+
+  
+
+#prueba t Dependientes 
+
+# La diferencia no es significativa 
+
+t.test(prod$Kgsem ~ prod$Tiempo, paired = T) 
+
+  
+
+# ver media  
+
+tapply(prod$Kgsem,prod$Tiempo, mean) 
+
+ 
