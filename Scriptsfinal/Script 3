@@ -24,7 +24,6 @@ boxplot(madera$Peso_g ~madera$Especie,
         col= "yellow")
 
 
-
 #3.Estadistica descriptiva
 tapply(madera$Peso_g,madera$Especie, mean)
 tapply(madera$Peso_g,madera$Especie, var)
