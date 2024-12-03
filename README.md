@@ -14,3 +14,6 @@ Material del curso de Posgrado de Diseño experimental y Análisis de Datos
 + Semana 6: ANOVA
 + Semana 7: Correlaciones
 
+
+![image](https://github.com/user-attachments/assets/6f34c357-29fa-41f7-8d20-64605166c951)
+
