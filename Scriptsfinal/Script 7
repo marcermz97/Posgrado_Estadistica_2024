@@ -39,7 +39,6 @@ altura <- rnorm(n, mean = 170, sd = 10)
 peso <- 0.5 * altura + rnorm(n, mean = 0, sd = 5)
 
 
-
 #Para reproductibilidad
 set.seed(42) 
 n <- 30
