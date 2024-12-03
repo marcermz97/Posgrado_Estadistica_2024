@@ -21,7 +21,7 @@ cero <-subset(profepa, profepa$Inspección == 0)
 todos <- subset(profepa, profepa$Inspección !=mean(profepa$Inspección))
 
 
-# Descarga de datos seguros----------------------------------------------------
+# Descarga de datos seguros---------------------------------------------------
 
 library(repmis)
 conjunto <-source_data("https://www.dropbox.com/s/hmsf07bbayxv6m3/cuadro1.csv?dl=1")
