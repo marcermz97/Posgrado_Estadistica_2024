@@ -6,13 +6,10 @@ head(profepa)
 
 View(profepa) 
 
-  
 
 #Datos 
 
 summary(profepa) 
-
-  
 
 #Media 
 
