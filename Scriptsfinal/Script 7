@@ -21,6 +21,7 @@ diam_arboles <-1.5 * diam_arboles + rnorm(n, mean = 0, sd = 3)
 prod <- read.csv("datosexamen", header = T)
 View(prod)
 
+
 datos <- data.frame(diam_arboles, altura_arboles)
 
 library(readxl)
